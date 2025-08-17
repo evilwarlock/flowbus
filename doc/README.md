@@ -9,6 +9,8 @@ Welcome to the FlowBus documentation! This folder contains comprehensive documen
 - **[MVP Timeline](plans/mvp_timeline.md)** - Development roadmap and milestones
 - **[Auth Module Implementation Plan](plans/auth_module_implementation_plan.md)** - Detailed technical plan for authentication
 - **[Auth Implementation Summary](plans/auth_implementation_summary.md)** - ✅ Completed authentication implementation details
+- **[Block Management Implementation Plan](plans/block_management_implementation_plan.md)** - Detailed technical plan for block CRUD operations
+- **[Block Management Implementation Summary](plans/block_management_implementation_summary.md)** - ✅ Completed block management implementation details
 
 ### 🔧 Modules (`/modules/`)
 - **[Backend Modules](modules/backend_modules.md)** - FastAPI backend module documentation
