@@ -35,10 +35,10 @@ git clone <your-repo-url>
 cd flowbus
 
 # Run the automated setup script
-./start-dev-macos.sh
+./scripts/start-dev-macos.sh
 
-# The API will be available at http://localhost:8000
-# API docs: http://localhost:8000/docs
+# The API will be available at http://127.0.0.1:8000
+# API docs: http://127.0.0.1:8000/docs
 ```
 
 ### Manual Setup (All Platforms)
@@ -143,3 +143,19 @@ flowbus/
 3. **Week 5-6**: Integrate Stripe payments
 4. **Week 7-8**: Add monitoring and testing
 5. **Week 9-10**: Deploy to staging and production
+
+## 🧪 Testing
+```bash
+# Quick validation
+tests/scripts/quick-test-macos.sh
+
+# Full authentication test
+cd tests/integration && python test_auth_implementation.py
+
+# Full block management test
+cd tests/integration && python test_block_management.py
+```
+
+## 📖 Documentation
+- **Complete Documentation**: [doc/README.md](doc/README.md)
+- **API Documentation**: http://127.0.0.1:8000/docs (when server is running)

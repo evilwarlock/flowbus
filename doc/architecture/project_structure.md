@@ -17,6 +17,7 @@ flowbus/
 │   ├── plans/             # Project plans and roadmaps
 │   ├── modules/           # Module documentation
 │   ├── architecture/      # Architecture and design docs
+│   ├── summary/           # Project summaries and completion reports
 │   └── setup/             # Setup and configuration guides
 └── README.md
 ```
@@ -37,6 +38,11 @@ flowbus/
 - Technology stack overview
 - System architecture diagrams
 - Design patterns and principles
+
+### `/doc/summary/`
+- Project summaries and completion reports
+- Implementation achievement summaries
+- Milestone completion documentation
 
 ### `/doc/setup/`
 - Development setup guides
