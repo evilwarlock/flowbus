@@ -44,6 +44,16 @@ class BlockBase(BaseModel):
 class BlockCreate(BlockBase):
     pass
 
+class BlockUpdate(BaseModel):
+    name: Optional[str] = None
+    description: Optional[str] = None
+    endpoint_url: Optional[HttpUrl] = None
+    pricing_model: Optional[PricingModel] = None
+    price_per_call: Optional[float] = None
+    subscription_price: Optional[float] = None
+    is_public: Optional[bool] = None
+    block_metadata: Optional[Dict[str, Any]] = None
+
 class BlockResponse(BlockBase):
     id: str
     owner_id: str
