@@ -34,7 +34,7 @@ class Block(Base):
     subscription_price = Column(Float, default=0.0)
     is_public = Column(Boolean, default=True)
     is_active = Column(Boolean, default=True)
-    metadata = Column(JSON)  # Additional block configuration
+    block_metadata = Column(JSON)  # Additional block configuration
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     

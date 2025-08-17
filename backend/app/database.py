@@ -2,11 +2,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from app.models import Base
+from app.config import settings
 
-# Database URL - will be overridden by environment variable
-DATABASE_URL = "postgresql://flowbus:flowbus_dev@localhost:5432/flowbus"
-
-engine = create_engine(DATABASE_URL)
+engine = create_engine(settings.DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # Dependency to get database session

@@ -1,71 +1,41 @@
 from datetime import timedelta
 from fastapi import APIRouter, HTTPException, status, Depends
 from fastapi.security import OAuth2PasswordRequestForm
-from app.schemas import UserCreate, UserResponse, Token
+from sqlalchemy.orm import Session
+from app.database import get_db
+from app.schemas import Token, UserResponse
+from app.security import authenticate_user, create_access_token, get_current_user
+from app.config import settings
 
 router = APIRouter(prefix="/auth", tags=["authentication"])
 
-# Mock user storage for testing
-mock_users = {}
-
-@router.post("/register", response_model=UserResponse)
-def register(user: UserCreate):
-    """Register a new user (mock implementation)"""
-    if user.username in mock_users:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="User with this username already exists"
-        )
-    
-    # Mock user creation
-    mock_user = {
-        "id": f"user_{len(mock_users) + 1}",
-        "email": user.email,
-        "username": user.username,
-        "is_active": True,
-        "created_at": "2024-01-01T00:00:00Z",
-        "updated_at": "2024-01-01T00:00:00Z"
-    }
-    
-    mock_users[user.username] = {
-        "user": mock_user,
-        "password": user.password  # In real app, this would be hashed
-    }
-    
-    return mock_user
 
 @router.post("/login", response_model=Token)
-def login(form_data: OAuth2PasswordRequestForm = Depends()):
-    """Login user and return access token (mock implementation)"""
-    if form_data.username not in mock_users:
+def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+    """Login user and return access token."""
+    user = authenticate_user(db, form_data.username, form_data.password)
+    if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
     
-    stored_user = mock_users[form_data.username]
-    if form_data.password != stored_user["password"]:
+    if not user.is_active:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect username or password",
-            headers={"WWW-Authenticate": "Bearer"},
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="User account is disabled"
         )
     
-    # Mock token generation
-    access_token = f"mock_token_{form_data.username}_{len(mock_users)}"
+    access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": user.id}, expires_delta=access_token_expires
+    )
     
     return {"access_token": access_token, "token_type": "bearer"}
 
+
 @router.get("/me", response_model=UserResponse)
-def get_current_user_info():
-    """Get current user information (mock implementation)"""
-    # For now, return a mock user
-    return {
-        "id": "user_1",
-        "email": "test@example.com",
-        "username": "testuser",
-        "is_active": True,
-        "created_at": "2024-01-01T00:00:00Z",
-        "updated_at": "2024-01-01T00:00:00Z"
-    } 
+def get_current_user_info(current_user = Depends(get_current_user)):
+    """Get current user information."""
+    return current_user 

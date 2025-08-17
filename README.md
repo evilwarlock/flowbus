@@ -28,14 +28,30 @@ A full-stack AI + API building and monetization platform:
 - Python 3.11+
 - Node.js 18+ (for frontend)
 
-### Initial Setup
+### macOS Quick Start (Recommended)
 ```bash
 # Clone the repository
 git clone <your-repo-url>
 cd flowbus
 
+# Run the automated setup script
+./start-dev-macos.sh
+
+# The API will be available at http://localhost:8000
+# API docs: http://localhost:8000/docs
+```
+
+### Manual Setup (All Platforms)
+```bash
 # Start the development environment
 docker-compose up -d
+
+# Set up backend
+cd backend
+python3 -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+uvicorn main:app --reload
 
 # The API will be available at http://localhost:8000
 # Health check: http://localhost:8000/health

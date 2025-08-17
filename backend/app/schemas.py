@@ -39,7 +39,7 @@ class BlockBase(BaseModel):
     price_per_call: Optional[float] = 0.0
     subscription_price: Optional[float] = 0.0
     is_public: bool = True
-    metadata: Optional[Dict[str, Any]] = None
+    block_metadata: Optional[Dict[str, Any]] = None
 
 class BlockCreate(BlockBase):
     pass
