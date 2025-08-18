@@ -12,6 +12,7 @@ import Profile from './pages/Profile';
 import Explore from './pages/Explore';
 import MyBlocks from './pages/MyBlocks';
 import CreateBlock from './pages/CreateBlock';
+import TestBlock from './pages/TestBlock';
 
 // Layout component for public pages
 const PublicLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -88,10 +89,7 @@ function AppRoutes() {
       } />
       <Route path="/blocks/:id/test" element={
         <ProtectedRoute>
-          <div className="p-8 text-center">
-            <h1 className="text-2xl font-bold text-gray-900">Test Block</h1>
-            <p className="text-gray-600 mt-2">Coming in Epic 3.3!</p>
-          </div>
+          <TestBlock />
         </ProtectedRoute>
       } />
       <Route path="/analytics" element={
