@@ -9,6 +9,9 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
+import Explore from './pages/Explore';
+import MyBlocks from './pages/MyBlocks';
+import CreateBlock from './pages/CreateBlock';
 
 // Layout component for public pages
 const PublicLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -49,20 +52,45 @@ function AppRoutes() {
         </ProtectedRoute>
       } />
 
-      {/* Placeholder protected routes for future implementation */}
+      {/* Block Management Routes */}
       <Route path="/blocks" element={
         <ProtectedRoute>
-          <div className="p-8 text-center">
-            <h1 className="text-2xl font-bold text-gray-900">My Blocks</h1>
-            <p className="text-gray-600 mt-2">Coming in Epic 3.2!</p>
-          </div>
+          <MyBlocks />
+        </ProtectedRoute>
+      } />
+      <Route path="/blocks/create" element={
+        <ProtectedRoute>
+          <CreateBlock />
         </ProtectedRoute>
       } />
       <Route path="/explore" element={
         <ProtectedRoute>
+          <Explore />
+        </ProtectedRoute>
+      } />
+      
+      {/* Placeholder routes for future implementation */}
+      <Route path="/blocks/:id" element={
+        <ProtectedRoute>
           <div className="p-8 text-center">
-            <h1 className="text-2xl font-bold text-gray-900">Explore Blocks</h1>
-            <p className="text-gray-600 mt-2">Coming in Epic 3.2!</p>
+            <h1 className="text-2xl font-bold text-gray-900">Block Details</h1>
+            <p className="text-gray-600 mt-2">Coming in Epic 3.2 completion!</p>
+          </div>
+        </ProtectedRoute>
+      } />
+      <Route path="/blocks/:id/edit" element={
+        <ProtectedRoute>
+          <div className="p-8 text-center">
+            <h1 className="text-2xl font-bold text-gray-900">Edit Block</h1>
+            <p className="text-gray-600 mt-2">Coming in Epic 3.2 completion!</p>
+          </div>
+        </ProtectedRoute>
+      } />
+      <Route path="/blocks/:id/test" element={
+        <ProtectedRoute>
+          <div className="p-8 text-center">
+            <h1 className="text-2xl font-bold text-gray-900">Test Block</h1>
+            <p className="text-gray-600 mt-2">Coming in Epic 3.3!</p>
           </div>
         </ProtectedRoute>
       } />
