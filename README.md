@@ -86,21 +86,53 @@ flowbus/
 └── README.md
 ```
 
-## 🎯 Phase 1 MVP Features
-- ✅ Block upload (metadata, endpoint, pricing)
-- ✅ Public listing + owner dashboard
-- ✅ Block invocation engine
-- ✅ Basic usage tracking and billing
-- ✅ Stripe payment flow
-- ✅ Revenue sharing logic
+## 🎉 **MAJOR MILESTONE: Invocation Engine Complete!**
+
+### 🎯 **Current MVP Status: 67% Complete**
+- ✅ **Block upload** (metadata, endpoint, pricing) - COMPLETE
+- ✅ **Public listing + owner dashboard** - COMPLETE
+- ✅ **Block invocation engine** - **FULLY COMPLETE** ✨
+- ✅ **Basic usage tracking and billing** - **FULLY COMPLETE** ✨
+- ⏳ **Stripe payment flow** - Next Phase
+- ⏳ **Revenue sharing logic** - Next Phase
+
+### ⚡ **New: Enterprise-Grade Invocation Engine**
+**FlowBus now has a complete API proxy with advanced features:**
+- 🚀 **API Proxy**: `POST /api/v1/invoke/{block_id}` - Route any API through FlowBus
+- 📊 **Usage Tracking**: Complete invocation logging with cost calculation
+- 🛡️ **Rate Limiting**: 60 req/min per user, 100 req/min per block (configurable)
+- ⚡ **Response Caching**: 5-minute intelligent caching for better performance
+- 📈 **Analytics**: Comprehensive usage stats and performance monitoring
+- 🔧 **Error Handling**: Robust timeout and connection error management
 
 ---
 
-## ⛓️ Backend Modules (FastAPI)
-- `/blocks` – CRUD API for block upload and search
-- `/invoke/{block_id}` – API proxy + usage tracker
-- `/billing` – Revenue aggregation
-- `/auth` – JWT-based user identity
+## ⛓️ **Backend API Endpoints (Complete)**
+
+### 🔐 **Authentication**
+- `POST /api/v1/auth/login` - User login with JWT
+- `GET /api/v1/auth/me` - Get current user info
+
+### 👥 **User Management**  
+- `POST /api/v1/users/` - User registration
+- `GET /api/v1/users/me` - Current user profile
+- `GET /api/v1/users/{user_id}` - User details
+
+### 📦 **Block Management**
+- `GET /api/v1/blocks/` - List all public blocks
+- `GET /api/v1/blocks/my` - List user's blocks
+- `POST /api/v1/blocks/` - Create new block
+- `GET /api/v1/blocks/{block_id}` - Get block details
+- `PUT /api/v1/blocks/{block_id}` - Update block
+- `DELETE /api/v1/blocks/{block_id}` - Delete block
+
+### 🚀 **Invocation Engine** (Just Completed!)
+- `POST /api/v1/invoke/{block_id}` - **Invoke any block** ✨
+- `GET /api/v1/invoke/history` - User invocation history
+- `GET /api/v1/invoke/analytics` - Usage analytics
+- `GET /api/v1/invoke/cache/stats` - Cache performance stats
+- `DELETE /api/v1/invoke/cache/{block_id}` - Cache invalidation
+- `GET /api/v1/invoke/rate-limit/status` - Rate limit monitoring
 
 ## 🗃️ Database Tables
 - `users`, `blocks`, `invocations`, `billing_logs`, `revenue_splits`
@@ -137,12 +169,23 @@ flowbus/
 | UI/UX Design         | Figma / Sketch                             |
 | Infra Management     | Helm (K8s) / Terraform                     |
 
-## 🚀 Next Steps
-1. **Week 1-2**: Complete the backend API endpoints
-2. **Week 3-4**: Build the React frontend for block upload
-3. **Week 5-6**: Integrate Stripe payments
-4. **Week 7-8**: Add monitoring and testing
-5. **Week 9-10**: Deploy to staging and production
+## 🚀 **Next Steps: Frontend Dashboard**
+
+### **IMMEDIATE PRIORITY (Phase 3)**
+1. **Epic 3.1**: Authentication UI (React login/register) - Week 1
+2. **Epic 3.2**: Block Management UI (create/edit blocks) - Week 1-2  
+3. **Epic 3.3**: Invocation Interface (test APIs) - Week 2
+4. **Epic 3.4**: Analytics Dashboard (usage stats) - Week 2-3
+5. **Epic 3.5**: UI/UX Polish (design system) - Week 3
+
+### **FOLLOWING PHASES**
+- **Phase 4**: Billing System (Stripe integration)
+- **Phase 5**: Production Deployment & Scale
+
+### **📋 Epic Reference System**
+- ✅ **Phase 1**: Infrastructure (Epic 1.1-1.4) - COMPLETE
+- ✅ **Phase 2**: Invocation Engine (Epic 2.1-2.4) - COMPLETE  
+- 🔄 **Phase 3**: Frontend Dashboard (Epic 3.1-3.5) - READY TO START
 
 ## 🧪 Testing
 ```bash

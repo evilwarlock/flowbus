@@ -1,12 +1,17 @@
 # FlowBus MVP Timeline
 
 ## Phase 1 MVP Features Status
-- ✅ Block upload (metadata, endpoint, pricing)
-- ✅ Public listing + owner dashboard
-- ✅ Block invocation engine
-- ✅ Basic usage tracking and billing
-- ✅ Stripe payment flow
-- ✅ Revenue sharing logic
+
+### ✅ **COMPLETED FEATURES**
+- ✅ **Block upload** (metadata, endpoint, pricing) - Full CRUD API
+- ✅ **Public listing + owner dashboard** - Complete via API endpoints  
+- ✅ **Block invocation engine** - **FULLY IMPLEMENTED** with advanced features
+- ✅ **Basic usage tracking and billing** - Complete tracking and cost calculation
+- ❌ **Stripe payment flow** - Not implemented yet
+- ❌ **Revenue sharing logic** - Not implemented yet
+
+### 🚀 **CURRENT PHASE 1 STATUS: 67% COMPLETE**
+**Major achievement:** Full invocation engine with enterprise-grade features!
 
 ## Weekly Plan: MVP Execution Timeline
 
@@ -18,9 +23,19 @@
 | 7–8       | Phase 1   | Stripe integration, rev share logic            | Simulated billing & rev split    |
 | 9–10      | Phase 1   | Testing, staging deploy                        | Public MVP                       |
 
-## Next Steps
-1. **Week 1-2**: Complete the backend API endpoints
-2. **Week 3-4**: Build the React frontend for block upload
-3. **Week 5-6**: Integrate Stripe payments
-4. **Week 7-8**: Add monitoring and testing
-5. **Week 9-10**: Deploy to staging and production
+## 🎯 **UPDATED Next Steps (Current Priority Order)**
+
+### **IMMEDIATE NEXT (Weeks 1-2)**
+1. **Frontend Dashboard** - React UI for complete user experience
+2. **End-to-End Testing** - Validate the full user journey
+
+### **FOLLOWING PHASES (Weeks 3-6)**  
+3. **Billing System** - Stripe payments and revenue sharing
+4. **Enhanced Analytics** - Advanced dashboards and insights
+5. **Production Deployment** - Staging and production environments
+
+### **📈 PROGRESS UPDATE**
+- ✅ **Backend API** - COMPLETE (all endpoints functional)
+- ✅ **Invocation Engine** - COMPLETE (with rate limiting, caching, analytics)
+- 🔄 **Frontend** - NEXT PRIORITY
+- ⏳ **Payments** - Planned after frontend
