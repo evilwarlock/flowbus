@@ -84,6 +84,19 @@ class InvocationResponse(InvocationBase):
     class Config:
         from_attributes = True
 
+# API Proxy schemas
+class InvokeRequest(BaseModel):
+    headers: Optional[Dict[str, str]] = None
+    query_params: Optional[Dict[str, str]] = None
+    body: Optional[Dict[str, Any]] = None
+
+class InvokeResponse(BaseModel):
+    status_code: int
+    headers: Dict[str, str]
+    body: Any
+    execution_time_ms: int
+    invocation_id: str
+
 # Billing schemas
 class BillingLogResponse(BaseModel):
     id: str
