@@ -51,63 +51,75 @@ class RateLimiter:
             return self._check_redis_rate_limit(key, limit, window_start, current_time)
         else:
             return self._check_memory_rate_limit(key, limit, window_start, current_time)
-    
+
     def _check_redis_rate_limit(self, key: str, limit: int, window_start: int, current_time: int) -> Dict[str, Any]:
         """Redis-based rate limiting using sorted sets."""
         try:
             pipe = self.redis_client.pipeline()
-            
+
             # Remove old entries outside the window
             pipe.zremrangebyscore(key, 0, window_start)
-            
+
             # Count current requests in window
             pipe.zcard(key)
-            
+
             # Add current request
             pipe.zadd(key, {str(current_time): current_time})
-            
-            # Set expiration for cleanup
-            pipe.expire(key, window_start + 60)
-            
+
+            # Set expiration for cleanup.
+            # ``expire`` expects a TTL in seconds, but the previous implementation
+            # mistakenly passed an absolute timestamp which resulted in keys
+            # sticking around for years.  Use the actual window size as the TTL so
+            # old rate limit data is cleaned up promptly.
+            window_seconds = current_time - window_start
+            pipe.expire(key, window_seconds)
+
             results = pipe.execute()
             current_count = results[1] + 1  # +1 for the request we just added
-            
+
             allowed = current_count <= limit
             remaining = max(0, limit - current_count)
-            
+
             return {
                 "allowed": allowed,
                 "remaining": remaining,
                 "limit": limit,
-                "reset_time": window_start + 60
+                "reset_time": current_time + window_seconds
             }
         except Exception as e:
             logger.error(f"Redis rate limit check failed: {e}")
             # Fallback to allowing the request
-            return {"allowed": True, "remaining": limit - 1, "limit": limit, "reset_time": window_start + 60}
-    
+            window_seconds = current_time - window_start
+            return {"allowed": True, "remaining": limit - 1, "limit": limit, "reset_time": current_time + window_seconds}
+
     def _check_memory_rate_limit(self, key: str, limit: int, window_start: int, current_time: int) -> Dict[str, Any]:
         """In-memory rate limiting fallback."""
         if key not in self._memory_store:
             self._memory_store[key] = {"requests": []}
-        
+
         # Clean old requests
         requests = self._memory_store[key]["requests"]
         requests = [req_time for req_time in requests if req_time > window_start]
-        
+
         # Add current request
         requests.append(current_time)
         self._memory_store[key]["requests"] = requests
-        
+
         current_count = len(requests)
         allowed = current_count <= limit
         remaining = max(0, limit - current_count)
-        
+
+        window_seconds = current_time - window_start
+        # The rate limit window resets when the earliest request in the window
+        # expires.  After cleaning, ``requests`` is ordered chronologically, so
+        # ``requests[0]`` holds the oldest timestamp.
+        reset_time = requests[0] + window_seconds if requests else current_time + window_seconds
+
         return {
             "allowed": allowed,
             "remaining": remaining,
             "limit": limit,
-            "reset_time": window_start + 60
+            "reset_time": reset_time
         }
 
 # Global rate limiter instance
