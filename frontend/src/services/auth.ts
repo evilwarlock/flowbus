@@ -4,10 +4,20 @@ import { User, AuthResponse, LoginRequest, RegisterRequest } from './types';
 class AuthService {
   // Login user
   async login(credentials: LoginRequest): Promise<{ user: User; token: string }> {
-    // Create form data for OAuth2 login
-    const formData = new FormData();
+    console.log('🔍 Login attempt with credentials:', { 
+      username: credentials.username, 
+      password: credentials.password ? '[HIDDEN]' : undefined 
+    });
+    
+    // Create URL-encoded form data for OAuth2 login (not FormData!)
+    const formData = new URLSearchParams();
     formData.append('username', credentials.username);
     formData.append('password', credentials.password);
+    
+    console.log('🔍 URLSearchParams contents:', {
+      username: formData.get('username'),
+      password: formData.get('password') ? '[HIDDEN]' : null
+    });
 
     try {
       const authResponse = await apiService.request<AuthResponse>(

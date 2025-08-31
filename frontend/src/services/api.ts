@@ -34,7 +34,7 @@ class ApiService {
       (response: AxiosResponse) => {
         return response;
       },
-      (error: AxiosError<ApiError>) => {
+      (error: AxiosError<any>) => {
         if (error.response?.status === 401) {
           // Token expired or invalid
           localStorage.removeItem('access_token');
@@ -42,8 +42,27 @@ class ApiService {
           window.location.href = '/login';
         }
         
+        // Handle FastAPI validation errors (arrays of objects)
+        let errorMessage = 'An error occurred';
+        
+        if (error.response?.data?.detail) {
+          const detail = error.response.data.detail;
+          
+          if (Array.isArray(detail)) {
+            // FastAPI validation errors
+            errorMessage = detail
+              .map((err: any) => err.msg || 'Validation error')
+              .join(', ');
+          } else if (typeof detail === 'string') {
+            // Simple string error
+            errorMessage = detail;
+          }
+        } else if (error.message) {
+          errorMessage = error.message;
+        }
+        
         const apiError: ApiError = {
-          detail: error.response?.data?.detail || error.message || 'An error occurred',
+          detail: errorMessage,
           status_code: error.response?.status,
         };
         
@@ -54,14 +73,33 @@ class ApiService {
 
   // Generic request method
   async request<T>(method: string, url: string, data?: any): Promise<T> {
+    console.log('🔍 API Request:', { method, url, dataType: data?.constructor?.name, data: data instanceof FormData ? '[FormData]' : data });
+    
     try {
-      const response = await this.api.request<T>({
+      const config: any = {
         method,
         url,
         data,
-      });
+      };
+      
+      // Handle FormData - remove Content-Type to let axios set it automatically
+      if (data instanceof FormData) {
+        config.headers = { ...config.headers };
+        delete config.headers['Content-Type']; // Let axios set multipart/form-data
+        console.log('🔍 Using FormData, removed Content-Type header');
+      }
+      
+      // Handle URLSearchParams for OAuth2 form data
+      if (data instanceof URLSearchParams) {
+        config.headers = { ...config.headers, 'Content-Type': 'application/x-www-form-urlencoded' };
+        console.log('🔍 Using URLSearchParams for OAuth2 form data');
+      }
+      
+      const response = await this.api.request<T>(config);
+      console.log('🔍 API Response:', { status: response.status, data: response.data });
       return response.data;
     } catch (error) {
+      console.error('🔍 API Error:', error);
       throw error;
     }
   }

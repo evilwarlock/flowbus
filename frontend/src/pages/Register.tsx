@@ -47,6 +47,11 @@ const Register: React.FC = () => {
   const password = watch('password');
 
   const onSubmit = async (data: RegisterFormData) => {
+    console.log('🔍 Form data being submitted:', { 
+      email: data.email, 
+      username: data.username, 
+      password: data.password ? '[HIDDEN]' : undefined 
+    });
     try {
       await registerUser(data.email, data.username, data.password);
       navigate('/dashboard');
