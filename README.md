@@ -1,34 +1,40 @@
-# flowbus
-flowbus codebase
+# FlowBus
 
-## 🌍 A Revolution in the Making
-Over the past five years, AI and API development exploded:
-- LangChain enables LLM chaining
-- Zapier/n8n enable non-coders to automate tasks
-- Hundreds of thousands of APIs/agents exist, but most aren't monetized
+**A full-stack platform for monetizing APIs and AI agents through modular, composable blocks.**
 
-## ❗ The Gap
-From a single API to a monetizable product is still hard. There's a massive opportunity:
-> If APIs, agents, and workflows can be modular like LEGO blocks—composable, tradeable, monetizable—we unlock a new creator economy.
+![Version](https://img.shields.io/badge/version-0.1.0-blue) ![License](https://img.shields.io/badge/license-MIT-green) ![Python](https://img.shields.io/badge/python-3.11+-blue) ![Build](https://img.shields.io/badge/build-passing-brightgreen)
 
----
+## At a Glance
 
-## 🌟 FlowBus = Steam + AWS + Zapier + Shopify
-A full-stack AI + API building and monetization platform:
+• **API Monetization Platform**: Upload APIs/agents as "Blocks," set pricing, and earn revenue  
+• **Modular Architecture**: Compose complex workflows from reusable building blocks  
+• **Enterprise-Grade Engine**: Built-in rate limiting, caching, usage tracking, and billing  
+• **Full-Stack Solution**: FastAPI backend + React frontend with authentication and payments  
+• **Developer-First**: Complete REST API, comprehensive docs, and Docker-ready deployment  
+• **Marketplace Ready**: Revenue sharing, analytics dashboard, and public block discovery  
 
-1. Upload APIs / Agents as **Blocks**
-2. Assemble Blocks into **Workflows**
-3. Add UI to create full **Apps**
-4. Publish on marketplace with revenue sharing
+## Table of Contents
 
-## 🚀 Quick Start
+- [Install](#install)
+- [Quickstart](#quickstart)
+- [Core Concepts](#core-concepts)
+- [Common Tasks](#common-tasks)
+- [API Overview](#api-overview)
+- [Configuration](#configuration)
+- [Troubleshooting](#troubleshooting)
+- [FAQ](#faq)
+- [Links](#links)
+
+## Install
 
 ### Prerequisites
+
 - Docker and Docker Compose
 - Python 3.11+
 - Node.js 18+ (for frontend)
 
 ### macOS Quick Start (Recommended)
+
 ```bash
 # Clone the repository
 git clone <your-repo-url>
@@ -37,168 +43,269 @@ cd flowbus
 # Run the automated setup script
 ./scripts/start-dev-macos.sh
 
-# The API will be available at http://127.0.0.1:8000
+# API available at http://127.0.0.1:8000
 # API docs: http://127.0.0.1:8000/docs
 ```
 
 ### Manual Setup (All Platforms)
+
 ```bash
-# Start the development environment
+# Start PostgreSQL and Redis
 docker-compose up -d
 
 # Set up backend
 cd backend
 python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 uvicorn main:app --reload
 
-# The API will be available at http://localhost:8000
-# Health check: http://localhost:8000/health
-```
-
-### Development
-```bash
-# Backend development (in backend/ directory)
-cd backend
-pip install -r requirements.txt
-uvicorn main:app --reload
-
-# Frontend development (in frontend/ directory)
+# Set up frontend (separate terminal)
 cd frontend
 npm install
 npm start
 ```
 
-## 📁 Project Structure
-```
-flowbus/
-├── backend/                 # FastAPI backend
-│   ├── app/
-│   │   ├── models.py       # SQLAlchemy models
-│   │   ├── schemas.py      # Pydantic schemas
-│   │   └── database.py     # Database configuration
-│   ├── main.py             # FastAPI app entry point
-│   ├── requirements.txt    # Python dependencies
-│   └── Dockerfile
-├── frontend/               # React frontend (coming soon)
-├── docker-compose.yml      # Development environment
-└── README.md
-```
+## Quickstart
 
-## 🎉 **MAJOR MILESTONE: Invocation Engine Complete!**
+Here's a complete workflow to create and invoke your first block:
 
-### 🎯 **Current MVP Status: 67% Complete**
-- ✅ **Block upload** (metadata, endpoint, pricing) - COMPLETE
-- ✅ **Public listing + owner dashboard** - COMPLETE
-- ✅ **Block invocation engine** - **FULLY COMPLETE** ✨
-- ✅ **Basic usage tracking and billing** - **FULLY COMPLETE** ✨
-- ⏳ **Stripe payment flow** - Next Phase
-- ⏳ **Revenue sharing logic** - Next Phase
-
-### ⚡ **New: Enterprise-Grade Invocation Engine**
-**FlowBus now has a complete API proxy with advanced features:**
-- 🚀 **API Proxy**: `POST /api/v1/invoke/{block_id}` - Route any API through FlowBus
-- 📊 **Usage Tracking**: Complete invocation logging with cost calculation
-- 🛡️ **Rate Limiting**: 60 req/min per user, 100 req/min per block (configurable)
-- ⚡ **Response Caching**: 5-minute intelligent caching for better performance
-- 📈 **Analytics**: Comprehensive usage stats and performance monitoring
-- 🔧 **Error Handling**: Robust timeout and connection error management
-
----
-
-## ⛓️ **Backend API Endpoints (Complete)**
-
-### 🔐 **Authentication**
-- `POST /api/v1/auth/login` - User login with JWT
-- `GET /api/v1/auth/me` - Get current user info
-
-### 👥 **User Management**  
-- `POST /api/v1/users/` - User registration
-- `GET /api/v1/users/me` - Current user profile
-- `GET /api/v1/users/{user_id}` - User details
-
-### 📦 **Block Management**
-- `GET /api/v1/blocks/` - List all public blocks
-- `GET /api/v1/blocks/my` - List user's blocks
-- `POST /api/v1/blocks/` - Create new block
-- `GET /api/v1/blocks/{block_id}` - Get block details
-- `PUT /api/v1/blocks/{block_id}` - Update block
-- `DELETE /api/v1/blocks/{block_id}` - Delete block
-
-### 🚀 **Invocation Engine** (Just Completed!)
-- `POST /api/v1/invoke/{block_id}` - **Invoke any block** ✨
-- `GET /api/v1/invoke/history` - User invocation history
-- `GET /api/v1/invoke/analytics` - Usage analytics
-- `GET /api/v1/invoke/cache/stats` - Cache performance stats
-- `DELETE /api/v1/invoke/cache/{block_id}` - Cache invalidation
-- `GET /api/v1/invoke/rate-limit/status` - Rate limit monitoring
-
-## 🗃️ Database Tables
-- `users`, `blocks`, `invocations`, `billing_logs`, `revenue_splits`
-
-## 🧪 Dev Setup
-- Docker Compose: API + PostgreSQL + Redis
-- GitHub Actions for CI
-- Local test suite with pytest
-
-## 📋 Weekly Plan: MVP Execution Timeline
-
-| Weeks     | Phase     | Tasks                                          | Deliverables                     |
-|-----------|-----------|------------------------------------------------|----------------------------------|
-| 1–2       | Phase 1   | Design Block model, API contracts, payment flow | API spec, schema, design docs   |
-| 3–4       | Phase 1   | Build backend API, billing tracker             | Working Block API                |
-| 5–6       | Phase 1   | Frontend upload page                           | React UI for Block upload        |
-| 7–8       | Phase 1   | Stripe integration, rev share logic            | Simulated billing & rev split    |
-| 9–10      | Phase 1   | Testing, staging deploy                        | Public MVP                       |
-
-## 🔧 Tech Stack
-
-| Function             | Stack                                      |
-|----------------------|--------------------------------------------|
-| Backend              | FastAPI (Python)                           |
-| Frontend             | React + TypeScript                         |
-| Database             | PostgreSQL                                 |
-| Auth                 | OAuth2 + JWT                               |
-| Payments             | Stripe / PayPal                            |
-| Monitoring           | Prometheus + Grafana or ELK                |
-| Drag-and-Drop Editor | React Flow / D3.js / JointJS               |
-| CI/CD                | GitHub Actions                             |
-| Containerization     | Docker + Kubernetes (or AWS ECS)           |
-| Version Control      | Git + GitHub                               |
-| UI/UX Design         | Figma / Sketch                             |
-| Infra Management     | Helm (K8s) / Terraform                     |
-
-## 🚀 **Next Steps: Frontend Dashboard**
-
-### **IMMEDIATE PRIORITY (Phase 3)**
-1. **Epic 3.1**: Authentication UI (React login/register) - Week 1
-2. **Epic 3.2**: Block Management UI (create/edit blocks) - Week 1-2  
-3. **Epic 3.3**: Invocation Interface (test APIs) - Week 2
-4. **Epic 3.4**: Analytics Dashboard (usage stats) - Week 2-3
-5. **Epic 3.5**: UI/UX Polish (design system) - Week 3
-
-### **FOLLOWING PHASES**
-- **Phase 4**: Billing System (Stripe integration)
-- **Phase 5**: Production Deployment & Scale
-
-### **📋 Epic Reference System**
-- ✅ **Phase 1**: Infrastructure (Epic 1.1-1.4) - COMPLETE
-- ✅ **Phase 2**: Invocation Engine (Epic 2.1-2.4) - COMPLETE  
-- 🔄 **Phase 3**: Frontend Dashboard (Epic 3.1-3.5) - READY TO START
-
-## 🧪 Testing
 ```bash
-# Quick validation
-tests/scripts/quick-test-macos.sh
+# 1. Start the API server
+cd backend && uvicorn main:app --reload
 
-# Full authentication test
-cd tests/integration && python test_auth_implementation.py
+# 2. Check health
+curl http://127.0.0.1:8000/health
 
-# Full block management test
-cd tests/integration && python test_block_management.py
+# 3. Register a user
+curl -X POST "http://127.0.0.1:8000/api/v1/auth/register" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "test@example.com",
+    "username": "testuser", 
+    "password": "testpassword123"
+  }'
+
+# 4. Login and get token
+curl -X POST "http://127.0.0.1:8000/api/v1/auth/login" \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "username=testuser&password=testpassword123"
+
+# 5. Create a block (use token from step 4)
+curl -X POST "http://127.0.0.1:8000/api/v1/blocks/" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Text Summarizer",
+    "description": "AI-powered text summarization",
+    "endpoint_url": "https://api.example.com/summarize",
+    "price_per_call": 0.01
+  }'
+
+# 6. Invoke the block
+curl -X POST "http://127.0.0.1:8000/api/v1/invoke/YOUR_BLOCK_ID" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"text": "Long text to summarize..."}'
 ```
 
-## 📖 Documentation
-- **Complete Documentation**: [doc/README.md](doc/README.md)
-- **API Documentation**: http://127.0.0.1:8000/docs (when server is running)
+## Core Concepts
+
+### Blocks
+**Blocks** are the core primitive—they wrap any REST API with metadata, pricing, and access controls. Each block has:
+- Unique ID and metadata (name, description, tags)
+- Target endpoint URL and HTTP method
+- Pricing model (per-call, subscription, etc.)
+- Owner and visibility settings
+
+### Invocation Engine
+The **Invocation Engine** acts as an intelligent proxy that:
+- Routes requests to block endpoints
+- Tracks usage and calculates costs
+- Applies rate limiting and caching
+- Handles authentication and billing
+
+### Users & Authentication
+JWT-based authentication with role-based access:
+- **Creators**: Upload and manage blocks
+- **Consumers**: Discover and invoke blocks
+- **Admins**: Platform management and analytics
+
+```mermaid
+graph LR
+    A[User] --> B[FlowBus API]
+    B --> C[Auth Service]
+    B --> D[Block Manager]
+    B --> E[Invocation Engine]
+    E --> F[External API]
+    E --> G[Usage Tracker]
+    G --> H[Billing System]
+```
+
+## Common Tasks
+
+### Create and publish a block
+
+```python
+import requests
+
+# Authenticate
+auth = requests.post("http://127.0.0.1:8000/api/v1/auth/login", 
+                    data={"username": "myuser", "password": "mypass"})
+token = auth.json()["access_token"]
+
+# Create block
+block = requests.post("http://127.0.0.1:8000/api/v1/blocks/",
+    headers={"Authorization": f"Bearer {token}"},
+    json={
+        "name": "Weather API",
+        "description": "Get current weather for any city",
+        "endpoint_url": "https://api.openweathermap.org/data/2.5/weather",
+        "price_per_call": 0.001
+    })
+```
+
+### Invoke a block with custom parameters
+
+```bash
+curl -X POST "http://127.0.0.1:8000/api/v1/invoke/weather-block" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"q": "London", "appid": "your-api-key"}'
+```
+
+### Monitor usage and analytics
+
+```python
+# Get your invocation history
+history = requests.get("http://127.0.0.1:8000/api/v1/invoke/history",
+                      headers={"Authorization": f"Bearer {token}"})
+
+# Check rate limit status  
+limits = requests.get("http://127.0.0.1:8000/api/v1/invoke/rate-limit/status",
+                     headers={"Authorization": f"Bearer {token}"})
+```
+
+### Manage block visibility and pricing
+
+```python
+# Update block settings
+requests.put(f"http://127.0.0.1:8000/api/v1/blocks/{block_id}",
+    headers={"Authorization": f"Bearer {token}"},
+    json={
+        "price_per_call": 0.002,
+        "is_public": True,
+        "description": "Updated description"
+    })
+```
+
+### Clear block cache
+
+```bash
+# Invalidate cache for specific block
+curl -X DELETE "http://127.0.0.1:8000/api/v1/invoke/cache/my-block-id" \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+## API Overview
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/health` | GET | Service health check |
+| `/api/v1/auth/register` | POST | User registration |
+| `/api/v1/auth/login` | POST | User authentication |
+| `/api/v1/auth/me` | GET | Current user profile |
+| `/api/v1/blocks/` | GET | List public blocks |
+| `/api/v1/blocks/` | POST | Create new block |
+| `/api/v1/blocks/{id}` | GET/PUT/DELETE | Manage specific block |
+| `/api/v1/blocks/my` | GET | List user's blocks |
+| `/api/v1/invoke/{block_id}` | POST | **Invoke block** |
+| `/api/v1/invoke/history` | GET | Invocation history |
+| `/api/v1/invoke/analytics` | GET | Usage analytics |
+| `/api/v1/invoke/rate-limit/status` | GET | Rate limit status |
+
+> **Tip:** Interactive API documentation is available at `http://127.0.0.1:8000/docs` when the server is running.
+
+## Configuration
+
+FlowBus uses environment variables for configuration. Create a `.env` file in the backend directory:
+
+```bash
+# JWT Configuration
+SECRET_KEY=your-super-secret-key-change-in-production
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+
+# Database
+DATABASE_URL=postgresql://flowbus:flowbus_dev@localhost:5432/flowbus
+
+# Redis Cache
+REDIS_HOST=localhost
+REDIS_PORT=6379
+REDIS_DB=0
+
+# Rate Limiting
+USER_RATE_LIMIT_PER_MINUTE=60
+BLOCK_RATE_LIMIT_PER_MINUTE=100
+```
+
+**Default values** are set for development. Override any setting by adding it to your `.env` file or setting environment variables directly.
+
+## Troubleshooting
+
+### "Connection refused" errors
+**Cause**: PostgreSQL or Redis not running  
+**Fix**: Start services with `docker-compose up -d`
+
+### "Authentication failed" errors  
+**Cause**: Invalid or expired JWT token  
+**Fix**: Login again to get a fresh token: `POST /api/v1/auth/login`
+
+### "Rate limit exceeded" errors
+**Cause**: Too many requests in short time  
+**Fix**: Wait 60 seconds or check limits: `GET /api/v1/invoke/rate-limit/status`
+
+### "Block not found" errors
+**Cause**: Invalid block ID or private block  
+**Fix**: Check block exists: `GET /api/v1/blocks/` and verify permissions
+
+### Import errors in Python
+**Cause**: Missing dependencies  
+**Fix**: Reinstall requirements: `pip install -r requirements.txt`
+
+### Frontend won't start
+**Cause**: Node.js version or missing packages  
+**Fix**: Use Node.js 18+, run `npm install` in frontend directory
+
+## FAQ
+
+**Q: How do I monetize my API?**  
+A: Create a block pointing to your API endpoint, set a price per call, and users pay to invoke it through FlowBus. Revenue sharing splits earnings between you and the platform.
+
+**Q: Can I test blocks before publishing?**  
+A: Yes, create blocks as private first. Use the invoke endpoint to test functionality, then set `is_public: true` to publish.
+
+**Q: What's the difference between blocks and workflows?**  
+A: Blocks wrap individual APIs. Workflows (coming soon) chain multiple blocks together for complex automations.
+
+**Q: How does rate limiting work?**  
+A: Users get 60 requests/minute, blocks get 100 requests/minute. Limits are configurable and tracked per user/block combination.
+
+**Q: Can I use custom authentication for my API?**  
+A: Yes, blocks can forward custom headers and authentication to your underlying API endpoint.
+
+**Q: How is pricing calculated?**  
+A: Each successful block invocation charges the price_per_call amount. Failed requests (4xx/5xx) are not charged.
+
+**Q: Is there a sandbox environment?**  
+A: The development setup acts as a sandbox. For production testing, deploy to a staging environment with separate databases.
+
+**Q: How do I handle API keys for my blocks?**  
+A: Pass API keys as parameters in the invoke request body. FlowBus forwards them to your endpoint without storing them.
+
+## Links
+
+- **Repository**: [GitHub](https://github.com/your-username/flowbus)
+- **API Documentation**: http://127.0.0.1:8000/docs (when running locally)
+- **Issues & Support**: [GitHub Issues](https://github.com/your-username/flowbus/issues)
+- **Releases**: [GitHub Releases](https://github.com/your-username/flowbus/releases)
+- **Docker Hub**: [flowbus/api](https://hub.docker.com/r/flowbus/api)
